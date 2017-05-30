@@ -3,15 +3,18 @@
 ################################################################
 
 
-#Class
+#Interactive shell
 from cmd import Cmd	
-#Color   # pip install colorama
+#Color   
+#pip install colorama
 from colorama import Fore, Back, Style
-#Http    # pip install requests
+#Http    
+# pip install requests
 import requests
 #Json    
 import json
 #Pretty
+#pip install pprint
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
 
@@ -19,7 +22,7 @@ pp = pprint.PrettyPrinter(indent=4)
 ###                      Variables                           ###
 ################################################################
 
-version = "v0.1"
+version = "v0.1.1"
 token = ""
 datacenter = ""
 
@@ -48,7 +51,7 @@ class CkdPrompt(Cmd):
         print ("|   --| | | '_| | . | . | -_| | |")
         print ('|_____|_  |_,_|_|___|___|___|\_/ ')
         print ('      |___|                      ')
-        print ('            Scaleway CLI v0.1    ')
+        print ('            Scaleway CLI '+version+'    ')
 
     def emptyline(self):
         pass
