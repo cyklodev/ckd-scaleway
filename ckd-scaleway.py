@@ -50,6 +50,9 @@ class CkdPrompt(Cmd):
         print ('      |___|                      ')
         print ('            Scaleway CLI v0.1    ')
 
+    def emptyline(self):
+        pass
+
     def do_quit(self, args):
         """Quits the program."""
         print Fore.BLUE+"Quitting prompt . thx for using :)"+Style.RESET_ALL
@@ -74,19 +77,19 @@ class CkdPrompt(Cmd):
         else:
             print Fore.GREEN+"Datacenter = "+datacenter+Style.RESET_ALL
 
-    def do_settoken(self,args):
+    def do_set_token(self,args):
         """Set the value of token"""
         global token
         token=args
         print "Token = "+token
 
-    def do_setdatacenter(self,args):
+    def do_set_datacenter(self,args):
         """Set the value of datacenter"""
         global datacenter
         datacenter=args
         print "Datacenter = "+datacenter
 
-    def do_testdatacenter(self,args):
+    def do_test_datacenter(self,args):
         """Test if the datacenter choosed is working properly via a request HTTP"""
         global datacenter
         global dct
@@ -102,5 +105,5 @@ class CkdPrompt(Cmd):
 
 if __name__ == '__main__':
     prompt = CkdPrompt()
-    prompt.prompt = Fore.GREEN+'>>Ckd-Scw-Cli>> '+Style.RESET_ALL
+    prompt.prompt = Fore.BLUE+'ckd-scaleway# '+Style.RESET_ALL
     prompt.cmdloop('Loading ....')

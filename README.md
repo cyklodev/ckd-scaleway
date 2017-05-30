@@ -46,6 +46,7 @@ $ python ckd-scaleway.py
 License
 ----
 
+```
 /*
  * ----------------------------------------------------------------------------
  * "THE BEER-WARE LICENSE" (Revision 42):
@@ -54,5 +55,5 @@ License
  * this stuff is worth it, you can buy me a beer in return Poul-Henning Kamp
  * ----------------------------------------------------------------------------
  */
-  
+ ```
 
