@@ -5,6 +5,9 @@ This python application provide an interface to manage Scaleway servers in a gen
   - Switch datacenter
   - Switch token
   - Test API access from choosen datacenter
+  - List images for the current datacenter
+  - List servers for the current datacenter
+
 
 # Why ?
 
@@ -37,7 +40,6 @@ $ python ckd-scaleway.py
 
 ### Todos
 
- - Images listing
  - Servers type listing
  - Tokens listing
  - Create, PowerON, PowerOFF and Delete a server
