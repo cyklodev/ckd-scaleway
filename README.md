@@ -2,22 +2,25 @@
 
 This python application provide an interface to manage Scaleway servers in a general manner via the HTTP API.
 
-  - Switch datacenter
-  - Switch token
+  - Switch datacenter 
+  - Set token
   - Test API access from choosen datacenter
-  - List images for the current datacenter
-  - List servers for the current datacenter
+  - List organizations
+  - List images from the current datacenter
+  - List servers from the current datacenter
+  - List volumes from the current datacenter
+  - List IPs for from current datacenter
 
 
 # Why ?
 
-> The providing SDK in python does not allow to fully
+> The provided SDK in python does not allow to fully
 > manage the creation of a server. So I decided to write
 > my own SDK as an interactive interface.
 
 # Tech
 
-ckd-scaleway uses a limited number of python libraries to work:
+ckd-scaleway uses a limited number of well-known python libraries to work:
 
 * [colorama] - set some colors in the interface!
 * [requests] - allow HTTP management of Scaleway API
@@ -47,7 +50,6 @@ $ python ckd-scaleway.py
 
 License
 ----
-
 ```
 /*
  * ----------------------------------------------------------------------------
