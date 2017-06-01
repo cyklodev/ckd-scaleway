@@ -20,6 +20,11 @@ import json
 #pip install pprint
 import pprint
 pp = pprint.PrettyPrinter(indent=4)
+#Arguements parsing
+import argparse
+from optparse import OptionParser
+
+
 
 ################################################################
 ###                      Functions                           ###
@@ -38,16 +43,25 @@ def clear():
 ###                      Variables                           ###
 ################################################################
 
-version = "v0.2.0"
+version = "v0.2.1"
 
-token = ""
-datacenter = ""
-
-dct =  { "par1":"https://cp-par1.scaleway.com" , "ams1":"https://cp-ams1.scaleway.com" }
-url_act = "https://account.scaleway.com"
+#token = ""
+#datacenter = ""
 
 verify_token = 0
 verify_datacenter = 0
+
+dct =  { 
+    "par1":"https://cp-par1.scaleway.com",
+    "ams1":"https://cp-ams1.scaleway.com" 
+}
+stype = { 
+    "arm": ["ARM64-2G","ARM64-4G","ARM64-8G"],
+    "x86_64": ["VC1S","VC1M","VC1L"]
+}
+url_act = "https://account.scaleway.com"
+
+
 
 clear()
 print (Fore.GREEN+'      _____     _   _       _         ')
@@ -59,12 +73,19 @@ print (Fore.GREEN+'                 Scaleway CLI '+version+'    ')
 
 print (Style.RESET_ALL)
 
+
+
 ################################################################
 ###                      Class                               ###
 ################################################################
 
 
 class CkdPrompt(Cmd):
+
+#    def __init__(self):
+#        global prompt
+#        print str(prompt)
+#        self.do_status(2)
 
     ####  Inner functions
 
@@ -125,6 +146,7 @@ class CkdPrompt(Cmd):
             self.updateprompt(2)
         else:
             print Fore.GREEN+"Datacenter = "+datacenter+Style.RESET_ALL
+            self.updateprompt(2)
 
     ####  organizations functions
 
@@ -209,6 +231,57 @@ class CkdPrompt(Cmd):
             print Fore.RED+"Something wrong cannot access to images list"
             print "Launch test_datacenter to see if link access is available"+Style.RESET_ALL 
 
+    def do_test_image(self,img,srv):
+        """Test compatibility of image vs server type"""
+        if img != "" and srv != "":
+            ImageID = img
+            ServerType = srv
+        else:
+            print "Usage: test_image <Image ID> <Server type>"
+            return
+ 
+        print "Image ID : " + ImageID
+        print "Server Type : " + ServerType
+
+        testServer = self.get_architecture(ServerType)
+        if testServer != False:
+	    print Fore.GREEN+"Server type is valid ! ["+testServer+"]"+Style.RESET_ALL 
+        else:
+            print Fore.RED+"Server type is NOT valid !"+Style.RESET_ALL 
+            return False
+
+        global token
+        headers = { "Content-Type": "application/json", "X-Auth-Token": token }
+        custom_url = dct[datacenter]+'/images'
+        r = requests.get(custom_url, headers=headers)
+        #r = requests.get(custom_url, headers=({"X-Auth-Token": token}))
+        if r.status_code == 200:
+            global pp
+            #pp.pprint(r.json())
+            jso = r.json()
+            for i in jso["images"]:
+                if ImageID == i['id']:
+                    if i['arch'] == testServer:
+                        print Fore.GREEN+"Arch is matching"+Style.RESET_ALL 
+                        return True
+                    else:
+                        print Fore.RED+"Arch NOT matching"+Style.RESET_ALL 
+                        return False
+        else:
+            print Fore.RED+"Something wrong cannot access to images list"
+            print "Launch test_datacenter to see if link access is available"+Style.RESET_ALL 
+
+    def get_architecture(self, server):
+        global stype
+        #print "server : " + server
+        #print "stype : " + str(stype)
+        for t in stype:
+            for l in stype[t]:
+                if l == server:
+                    #print "Server catched !!!!!!!!!!!!!!!!!!!"
+                    return t
+        return False
+
     ####  Servers functions
 
 
@@ -225,11 +298,74 @@ class CkdPrompt(Cmd):
             print "Number of servers = "+str(len(r.json()['servers']))
             jso = r.json()
             for i in jso["servers"]:
-                print (i['hostname']+" "+i['id']+" "+i['public_ip']['address'])
+                try:
+                    host = i['hostname']
+                except:
+                    host = ''
+                try:
+                    idh = i['id']
+                except:
+                    idh = ''
+                try:
+                    image = i['image']['name']
+                except:
+                    image = ''
+                try:
+                    state = i['state']
+                except:
+                    state = ''
+                try:
+                    ip = i['public_ip']['address']
+                except:
+                    ip = ''
+		print ("ID \t\t\t\t\t\tServer\t\tImage\t\t\tState\t\t\tIP")
+                print (idh+"\t\t"+host+"\t\t"+image+"\t\t"+state+"\t\t"+ip)
         else:
             print Fore.RED+"Something wrong cannot access to servers list"
             print "Launch test_datacenter to see if link access is available"+Style.RESET_ALL 
 
+    def do_create_server(self,args):
+        """
+        Create a new server on the current datacenter
+        create_server <Organization ID> <Server Name> <Image ID> <Server Type>
+        """
+        global pp
+        global token
+        #pp.pprint(args)
+        if len(args.split()) == 4:
+            org = args.split()[0]
+            name = args.split()[1]
+            img = args.split()[2]
+            stype = args.split()[3]
+            print ('Organization = '+ org)
+            print ('Name = '+ name)
+            print ('Image = '+ img)
+            print ('stype = '+ stype)
+            if self.do_test_image(img , stype) != True:
+                print Fore.RED+"The image provided does not fit in the server type you choose"+Style.RESET_ALL
+                return False
+            custom_url = dct[datacenter]+'/servers'
+            headers = { "Content-Type": "application/json", "X-Auth-Token": token }
+            payload = ({
+		  "organization": org,
+		  "name": name,
+		  "image": img,
+		  "commercial_type": stype,
+		  "tags": [
+		    "Cyklodev"
+		  ]
+	    })
+            r = requests.post(custom_url, data=json.dumps(payload), headers=headers)
+            print "Code = " + str(r.status_code)
+            if r.status_code == 201:
+                print Fore.GREEN+" Server created ["+r.json()['server']['id']+']'+Style.RESET_ALL
+                return r.json()['server']['id']
+            else:
+                print Fore.RED+"Something went wrong during the creation"+Style.RESET_ALL
+                pp.pprint(r.json())
+                return False
+        else:
+            print ('Usage : create_server <Organization ID> <Server Name> <Image ID> <Server Type>')
     ####  Volumes functions
 
 
@@ -276,6 +412,15 @@ class CkdPrompt(Cmd):
 
 
 if __name__ == '__main__':
+    if os.environ['SCWTOKEN'] != "":
+        print "Token detected as envvar"
+        global token
+        token = os.environ['SCWTOKEN']
+    if os.environ['SCWDATACENTER'] != "":
+        print "Datacenter detected as envvar"
+        global datacenter
+        datacenter = os.environ['SCWDATACENTER']
     prompt = CkdPrompt()
     prompt.prompt = Fore.BLUE+'ckd-scaleway# '+Style.RESET_ALL
     prompt.cmdloop('Loading ....')
+
