@@ -43,7 +43,7 @@ def clear():
 ###                      Variables                           ###
 ################################################################
 
-version = "v0.2.1"
+version = "v0.2.2"
 
 #token = ""
 #datacenter = ""
@@ -82,10 +82,6 @@ print (Style.RESET_ALL)
 
 class CkdPrompt(Cmd):
 
-#    def __init__(self):
-#        global prompt
-#        print str(prompt)
-#        self.do_status(2)
 
     ####  Inner functions
 
@@ -323,6 +319,67 @@ class CkdPrompt(Cmd):
         else:
             print Fore.RED+"Something wrong cannot access to servers list"
             print "Launch test_datacenter to see if link access is available"+Style.RESET_ALL 
+
+    def do_get_server_action(self,sid):
+        """
+        Get the actions available for a specific server by his ID
+        """
+        if sid == '':
+            print Fore.RED+"The server ID cannot be empty"+Style.RESET_ALL 
+            return False
+        print "ID : "+sid
+        global token
+        global pp
+        headers = { "X-Auth-Token": token }
+        custom_url = dct[datacenter]+'/servers/'+sid+'/action'
+        #print "URL = " + custom_url
+        r = requests.get(custom_url, headers=headers)
+        #pp.pprint(r.json())
+        return r.json()
+    
+    def do_is_server_action(self,args):
+        """
+        Test if the action is available for a specific server by his ID
+        """
+        sid = args.split()[0]
+        action = args.split()[1]
+        #pp.pprint(args)
+        actions = self.do_get_server_action(sid)
+        #pp.pprint(actions)
+        for a in actions['actions']:
+            if a == action:
+                return True
+        return False
+
+    def do_set_server_action(self,args):
+        """
+        Get the actions available for a specific server by his ID
+        """
+        sid = args.split()[0]
+        action = args.split()[1]
+        if sid == '':
+            print Fore.RED+"The server ID cannot be empty"+Style.RESET_ALL 
+            return False
+        if action == '':
+            print Fore.RED+"The action cannot be empty"+Style.RESET_ALL 
+            return False
+        #print "ID : "+str(sid)
+        #print "Action : "+action
+        global token
+        global pp
+        #pp.pprint (self.do_is_server_action(sid + " " + action) )
+        if self.do_is_server_action(sid + " " + action) == True:
+            print Fore.GREEN+"Action is valid"+Style.RESET_ALL
+        else:
+            print Fore.RED+"Action is NOT valid"+Style.RESET_ALL
+            return False
+        global pp
+        headers = { "Content-Type": "application/json","X-Auth-Token": token }
+        payload = { "action": action }
+        custom_url = dct[datacenter]+'/servers/'+sid+'/action'
+        #print "URL = " + custom_url
+        r = requests.post(custom_url, data=json.dumps(payload), headers=headers)
+        pp.pprint(r.json())
 
     def do_create_server(self,args):
         """

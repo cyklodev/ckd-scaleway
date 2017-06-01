@@ -9,6 +9,7 @@ This python application provide an interface to manage Scaleway servers in a gen
   - List images, servers, volumes and IPs from the current datacenter
   - Test Image vs Server Type
   - Create a new server
+  - Send actions to a server
 
 
 # Why ?
@@ -51,8 +52,9 @@ ckd-scaleway# status
 
  - Servers type listing
  - Tokens listing
- - PowerON, PowerOFF and Delete a server
+ - Delete a server
  - Pip file requierements
+ - Crentials management
 
 
 License
