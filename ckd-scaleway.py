@@ -43,10 +43,10 @@ def clear():
 ###                      Variables                           ###
 ################################################################
 
-version = "v0.2.2"
+version = "v0.2.3"
 
-#token = ""
-#datacenter = ""
+token = ""
+datacenter = ""
 
 verify_token = 0
 verify_datacenter = 0
@@ -469,11 +469,11 @@ class CkdPrompt(Cmd):
 
 
 if __name__ == '__main__':
-    if os.environ['SCWTOKEN'] != "":
+    if os.environ.get('SCWTOKEN') is not None:
         print "Token detected as envvar"
         global token
         token = os.environ['SCWTOKEN']
-    if os.environ['SCWDATACENTER'] != "":
+    if os.environ.get('SCWDATACENTER') is not None:
         print "Datacenter detected as envvar"
         global datacenter
         datacenter = os.environ['SCWDATACENTER']
