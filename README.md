@@ -10,13 +10,15 @@ This python application provide an interface to manage Scaleway servers in a gen
   - Test Image vs Server Type
   - Create a new server
   - Send actions to a server
-
+  * Catch the server availability
 
 # Why ?
 
 > The provided SDK in python does not allow to fully
 > manage the creation of a server. So I decided to write
 > my own SDK as an interactive interface.
+
+> The achievement is to make Scaleway IasS scriptable
 
 # Tech
 
@@ -37,14 +39,30 @@ Install the dependencies and start the application:
 $ pip install colorama
 $ pip install requests
 $ pip install pprint
+```
+### Usage
+
+* Interactive mode
+```sh
 $ python ckd-scaleway.py
+ckd-scaleway# status
 ```
 
+* Pre set interactive mode
 Optionnaly you can preset the datacenter and your token:
 ```sh
 $ export SCWTOKEN=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
-$ export SCWDATACENTER=par1
+$ export SCWDATACENTER=ams1
 $ python ckd-scaleway.py
+ckd-scaleway# status
+```
+
+* Non interactive (just to create a server)
+
+```sh
+$ export SCWTOKEN=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
+$ export SCWDATACENTER=ams1
+$ python ckd-scaleway.py -t s -c "<Organization ID> <Server Name> <Image ID> <Server Type>"
 ckd-scaleway# status
 ```
 
