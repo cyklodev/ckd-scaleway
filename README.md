@@ -10,7 +10,7 @@ This python application provide an interface to manage Scaleway servers in a gen
   - Test Image vs Server Type
   - Create a new server
   - Send actions to a server
-  * Catch the server availability
+  - Catch the server availability
 
 # Why ?
 
@@ -63,7 +63,6 @@ ckd-scaleway# status
 $ export SCWTOKEN=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 $ export SCWDATACENTER=ams1
 $ python ckd-scaleway.py -t s -c "<Organization ID> <Server Name> <Image ID> <Server Type>"
-ckd-scaleway# status
 ```
 
 ### Todos
