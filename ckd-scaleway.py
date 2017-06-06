@@ -609,7 +609,7 @@ if __name__ == '__main__':
                 print ( "List servers" )
                 prompt.do_get_servers('')
                 global sID
-            	sID = prompt.do_create_server(options.creastring)
+                sID = prompt.do_create_server(options.creastring)
                 print ("!!!!!!!!!!!!!!!!!!!"+sID)
                 prompt.do_get_servers('')
                 if sID is not None:
