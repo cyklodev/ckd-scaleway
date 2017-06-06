@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/cyklodev/ckd-scaleway.svg?branch=master)](https://travis-ci.org/cyklodev/ckd-scaleway)
+# Build
+
+Development : [![Build Status](https://travis-ci.org/cyklodev/ckd-scaleway.svg?branch=master)](https://travis-ci.org/cyklodev/ckd-scaleway)
 
 # ckd-scaleway
 
@@ -70,7 +72,7 @@ $ python ckd-scaleway.py -t s -c "<Organization ID> <Server Name> <Image ID> <Se
  - Servers type listing
  - Tokens listing
  - Delete a server
- - Crentials management
+ - Credentials management
 
 
 License
