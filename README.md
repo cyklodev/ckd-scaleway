@@ -1,4 +1,4 @@
-[alt text] (https://api.travis-ci.org/cyklodev/ckd-scaleway.svg?branch=master 'Travis-CI')
+[![Build Status](https://travis-ci.org/cyklodev/ckd-scaleway.svg?branch=master)](https://travis-ci.org/cyklodev/ckd-scaleway)
 
 # ckd-scaleway
 

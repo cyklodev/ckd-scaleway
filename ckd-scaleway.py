@@ -93,11 +93,11 @@ class CkdPrompt(Cmd):
         pass
 
     def updateprompt(self, int):
-        global prompt
         """Change the interactive prompt"""
-	if int == 1:
+        global prompt
+	if int == 1 :
             prompt.prompt = Fore.BLUE+'ckd-scaleway ['+Fore.RED+datacenter+Fore.BLUE+']# '+Style.RESET_ALL
-        elif int == 0:
+        elif int == 0 :
             prompt.prompt = Fore.BLUE+'ckd-scaleway ['+Fore.GREEN+datacenter+Fore.BLUE+']# '+Style.RESET_ALL
         else:
             prompt.prompt = Fore.BLUE+'ckd-scaleway ['+Fore.YELLOW+datacenter+Fore.BLUE+']# '+Style.RESET_ALL
