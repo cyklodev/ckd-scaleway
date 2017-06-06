@@ -495,8 +495,8 @@ class CkdPrompt(Cmd):
                 #print ">>>>>>>>>"+ s[3]
 	        
                 if s[3] == 'running':
-	            print ("Server UP in "+str(time.time() - timeout_start)+" secs !!!! ")
-	            print ("Connect with ssh -o 'StrictHostKeyChecking no' root@"+s[4])
+                    print ("Server UP in "+str(time.time() - timeout_start)+" secs !!!! ")
+                    print ("Connect with ssh -o 'StrictHostKeyChecking no' root@"+s[4])
                     if options.commtype == 'script' or options.commtype == 's':
                         return True
                     else:
