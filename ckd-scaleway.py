@@ -560,9 +560,9 @@ class CkdPrompt(Cmd):
 
 
 if __name__ == '__main__':
+    global token
     if os.environ.get('SCWTOKEN') is not None:
         print ( "Token detected as envvar")
-        global token
         token = os.environ['SCWTOKEN']
     if os.environ.get('SCWDATACENTER') is not None:
         print ("Datacenter detected as envvar")
