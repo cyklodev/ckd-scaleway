@@ -47,6 +47,12 @@ def clear():
 ###                      Variables                           ###
 ################################################################
 
+
+global token
+global sID
+global datacenter
+
+
 version = "v0.3.0"
 
 token = ""
@@ -558,9 +564,6 @@ class CkdPrompt(Cmd):
 
 
 
-global token
-global sID
-global datacenter
 
 if __name__ == '__main__':
     if os.environ.get('SCWTOKEN') is not None:
