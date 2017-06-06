@@ -39,7 +39,7 @@ def clear():
     elif os.name in ('linux','osx','posix'):
         subprocess.call("clear")
     else:
-        print "\n"*120
+        print ("\n"*120)
 
 
 
@@ -121,31 +121,31 @@ class CkdPrompt(Cmd):
         print (Fore.GREEN+'         /___/                             ')
         print (Fore.GREEN+'                  Scaleway CLI '+version+' ')
         print (Fore.GREEN+'')
-        print Fore.BLUE+"Support: https://github.com/cyklodev/ckd-scaleway/issues "
-        print Fore.BLUE+"Thanks for using :)"+Style.RESET_ALL 
+        print (Fore.BLUE+"Support: https://github.com/cyklodev/ckd-scaleway/issues ")
+        print (Fore.BLUE+"Thanks for using :)"+Style.RESET_ALL)
         raise SystemExit
 
     ####  Status functions
 
     def do_status(self,args):
         """Check the status of settings"""
-        print Fore.YELLOW+"Test requierments"
+        print (Fore.YELLOW+"Test requierments")
         global token
         if token == "":
-            print Fore.RED+"Token not set"
-            print "Use command settoken"+Style.RESET_ALL
+            print (Fore.RED+"Token not set")
+            print ("Use command settoken"+Style.RESET_ALL)
         else:
-            print Fore.GREEN+"Token = "+token+Style.RESET_ALL
+            print (Fore.GREEN+"Token = "+token+Style.RESET_ALL)
 
         global datacenter 
         if datacenter == "":
-            print Fore.YELLOW+"Datacenter not set [Loading default : par1]"
-            print "Use command setdatacenter to change"
+            print (Fore.YELLOW+"Datacenter not set [Loading default : par1]")
+            print ("Use command setdatacenter to change")
             datacenter="par1"
-            print Fore.GREEN+"Datacenter = "+datacenter+Style.RESET_ALL
+            print (Fore.GREEN+"Datacenter = "+datacenter+Style.RESET_ALL)
             self.updateprompt(2)
         else:
-            print Fore.GREEN+"Datacenter = "+datacenter+Style.RESET_ALL
+            print (Fore.GREEN+"Datacenter = "+datacenter+Style.RESET_ALL)
             self.updateprompt(2)
 
     ####  organizations functions
@@ -164,8 +164,8 @@ class CkdPrompt(Cmd):
                 print ("Name: "+i['name'])
                 print ("Oraganization ID: "+i['id'])
         else:
-            print Fore.RED+"Something wrong cannot access to organizations list"
-            print "Launch test_datacenter to see if link access is available"+Style.RESET_ALL 
+            print ( Fore.RED+"Something wrong cannot access to organizations list")
+            print ("Launch test_datacenter to see if link access is available"+Style.RESET_ALL )
 
     ####  Tokens functions
 
@@ -173,7 +173,7 @@ class CkdPrompt(Cmd):
         """Set the value of token"""
         global token
         token=args
-        print "Token = "+token
+        print ("Token = "+token)
 
     def do_test_token(self,args):
         """Set the value of token"""
@@ -186,8 +186,8 @@ class CkdPrompt(Cmd):
             pp.pprint( r.json() )
             return True
         else:
-            print Fore.RED+"Something wrong cannot verify actual token"
-            print "Launch test_datacenter to see if link access is available"+Style.RESET_ALL 
+            print (Fore.RED+"Something wrong cannot verify actual token")
+            print ("Launch test_datacenter to see if link access is available"+Style.RESET_ALL )
             return False
 
     ####  Datacenter functions
@@ -196,22 +196,22 @@ class CkdPrompt(Cmd):
         """Set the value of datacenter"""
         global datacenter
         datacenter=args
-        print "Datacenter = "+datacenter
+        print ("Datacenter = "+datacenter)
 
     def do_test_datacenter(self,args):
         """Test if the datacenter choosed is working properly via a request HTTP"""
         global datacenter
         global dct
-        print "Datacenter = "+datacenter 
-        print "URL = "+dct[datacenter]
+        print ("Datacenter = "+datacenter )
+        print ("URL = "+dct[datacenter])
         r = requests.get(dct[datacenter])
 
         if r.status_code == 200:
-            print Fore.GREEN+"Link to datacenter OK"+Style.RESET_ALL
+            print (Fore.GREEN+"Link to datacenter OK"+Style.RESET_ALL)
             self.updateprompt(0)
             return True
         else:
-            print Fore.RED+"Link to datacenter KO"+Style.RESET_ALL        
+            print (Fore.RED+"Link to datacenter KO"+Style.RESET_ALL    )    
             self.updateprompt(1)
             return False
 
@@ -231,8 +231,8 @@ class CkdPrompt(Cmd):
             for i in jso["images"]:
                 print (i['id']+"\t\t"+i['arch']+"\t\t"+i['name'])
         else:
-            print Fore.RED+"Something wrong cannot access to images list"
-            print "Launch test_datacenter to see if link access is available"+Style.RESET_ALL 
+            print (Fore.RED+"Something wrong cannot access to images list")
+            print ("Launch test_datacenter to see if link access is available"+Style.RESET_ALL )
 
     def do_test_image(self,img,srv):
         """Test compatibility of image vs server type"""
@@ -240,17 +240,17 @@ class CkdPrompt(Cmd):
             ImageID = img
             ServerType = srv
         else:
-            print "Usage: test_image <Image ID> <Server type>"
+            print ("Usage: test_image <Image ID> <Server type>")
             return
  
-        print "Image ID : " + ImageID
-        print "Server Type : " + ServerType
+        print ("Image ID : " + ImageID)
+        print ("Server Type : " + ServerType)
 
         testServer = self.get_architecture(ServerType)
         if testServer != False:
-	    print Fore.GREEN+"Server type is valid ! ["+testServer+"]"+Style.RESET_ALL 
+	    print (Fore.GREEN+"Server type is valid ! ["+testServer+"]"+Style.RESET_ALL )
         else:
-            print Fore.RED+"Server type is NOT valid !"+Style.RESET_ALL 
+            print (Fore.RED+"Server type is NOT valid !"+Style.RESET_ALL )
             return False
 
         global token
@@ -265,14 +265,14 @@ class CkdPrompt(Cmd):
             for i in jso["images"]:
                 if ImageID == i['id']:
                     if i['arch'] == testServer:
-                        print Fore.GREEN+"Arch is matching"+Style.RESET_ALL 
+                        print (Fore.GREEN+"Arch is matching"+Style.RESET_ALL )
                         return True
                     else:
-                        print Fore.RED+"Arch NOT matching"+Style.RESET_ALL 
+                        print (Fore.RED+"Arch NOT matching"+Style.RESET_ALL )
                         return False
         else:
-            print Fore.RED+"Something wrong cannot access to images list"
-            print "Launch test_datacenter to see if link access is available"+Style.RESET_ALL 
+            print (Fore.RED+"Something wrong cannot access to images list")
+            print ("Launch test_datacenter to see if link access is available"+Style.RESET_ALL )
 
     def get_architecture(self, server):
         global stype
@@ -298,7 +298,7 @@ class CkdPrompt(Cmd):
         if r.status_code == 200:
             global pp
             #pp.pprint(r.json())
-            print "Number of servers = "+str(len(r.json()['servers']))
+            print ("Number of servers = "+str(len(r.json()['servers'])))
             if len(r.json()) > 0:
 		print ("ID \t\t\t\t\t\tServer\t\tImage\t\t\tState\t\t\tIP")
             jso = r.json()
@@ -329,8 +329,8 @@ class CkdPrompt(Cmd):
             if options.commtype == 'script' or options.commtype == 's':
                 return servers_list 
         else:
-            print Fore.RED+"Something wrong cannot access to servers list"
-            print "Launch test_datacenter to see if link access is available"+Style.RESET_ALL 
+            print (Fore.RED+"Something wrong cannot access to servers list")
+            print ("Launch test_datacenter to see if link access is available"+Style.RESET_ALL )
 
     def do_get_server_by_id(self,sID):
         """List server from current datacenter by ID"""
@@ -370,19 +370,19 @@ class CkdPrompt(Cmd):
                 else:
                     return (idh+"\t\t"+host+"\t\t"+image+"\t\t"+state+"\t\t"+ip)
             else:
-                print Fore.RED+"Something wrong cannot access to servers list"
-                print "Launch test_datacenter to see if link access is available"+Style.RESET_ALL 
+                print (Fore.RED+"Something wrong cannot access to servers list")
+                print ("Launch test_datacenter to see if link access is available"+Style.RESET_ALL )
         else:
-            print "Server ID cannot be empty"
+            print ("Server ID cannot be empty")
 
     def do_get_server_action(self,sid):
         """
         Get the actions available for a specific server by his ID
         """
         if sid == '':
-            print Fore.RED+"The server ID cannot be empty"+Style.RESET_ALL 
+            print (Fore.RED+"The server ID cannot be empty"+Style.RESET_ALL )
             return False
-        print "ID : "+sid
+        print ("ID : "+sid)
         global token
         global pp
         headers = { "X-Auth-Token": token }
@@ -411,15 +411,15 @@ class CkdPrompt(Cmd):
         Get the actions available for a specific server by his ID
         """
         if len(args) == 0 or args is None:
-            print "Usage set_server_action <Server ID> <Action>"
+            print ("Usage set_server_action <Server ID> <Action>")
             return
         sid = args.split()[0]
         action = args.split()[1]
         if sid == '':
-            print Fore.RED+"The server ID cannot be empty"+Style.RESET_ALL 
+            print (Fore.RED+"The server ID cannot be empty"+Style.RESET_ALL )
             return False
         if action == '':
-            print Fore.RED+"The action cannot be empty"+Style.RESET_ALL 
+            print ( Fore.RED+"The action cannot be empty"+Style.RESET_ALL )
             return False
         #print "ID : "+str(sid)
         #print "Action : "+action
@@ -427,9 +427,9 @@ class CkdPrompt(Cmd):
         global pp
         #pp.pprint (self.do_is_server_action(sid + " " + action) )
         if self.do_is_server_action(sid + " " + action) == True:
-            print Fore.GREEN+"Action is valid"+Style.RESET_ALL
+            print (Fore.GREEN+"Action is valid"+Style.RESET_ALL)
         else:
-            print Fore.RED+"Action is NOT valid"+Style.RESET_ALL
+            print (Fore.RED+"Action is NOT valid"+Style.RESET_ALL)
             return False
         global pp
         headers = { "Content-Type": "application/json","X-Auth-Token": token }
@@ -457,7 +457,7 @@ class CkdPrompt(Cmd):
             print ('Image = '+ img)
             print ('stype = '+ stype)
             if self.do_test_image(img , stype) != True:
-                print Fore.RED+"The image provided does not fit in the server type you choose"+Style.RESET_ALL
+                print (Fore.RED+"The image provided does not fit in the server type you choose"+Style.RESET_ALL)
                 return False
             custom_url = dct[datacenter]+'/servers'
             headers = { "Content-Type": "application/json", "X-Auth-Token": token }
@@ -471,13 +471,13 @@ class CkdPrompt(Cmd):
 		  ]
 	    })
             r = requests.post(custom_url, data=json.dumps(payload), headers=headers)
-            print "Code = " + str(r.status_code)
+            print ("Code = " + str(r.status_code))
             if r.status_code == 201:
-                print Fore.GREEN+" Server created ["+r.json()['server']['id']+']'+Style.RESET_ALL
+                print (Fore.GREEN+" Server created ["+r.json()['server']['id']+']'+Style.RESET_ALL)
                 if options.commtype == 'script' or options.commtype == 's':
                     return r.json()['server']['id']
             else:
-                print Fore.RED+"Something went wrong during the creation"+Style.RESET_ALL
+                print (Fore.RED+"Something went wrong during the creation"+Style.RESET_ALL)
                 pp.pprint(r.json())
                 return False
         else:
@@ -495,24 +495,24 @@ class CkdPrompt(Cmd):
                 #print ">>>>>>>>>"+ s[3]
 	        
                 if s[3] == 'running':
-	            print "Server UP in "+str(time.time() - timeout_start)+" secs !!!! "
-	            print "Connect with ssh -o 'StrictHostKeyChecking no' root@"+s[4]
+	            print ("Server UP in "+str(time.time() - timeout_start)+" secs !!!! ")
+	            print ("Connect with ssh -o 'StrictHostKeyChecking no' root@"+s[4])
 	            if options.commtype == 'script' or options.commtype == 's':
                         return True
                     else:
                         break
                 if s[3] != 'starting':
                     if options.commtype == 'script' or options.commtype == 's':
-                        print "The server is not in a starting state"
+                        print ("The server is not in a starting state")
                         return False
                     else:
-                        print "The server is not in starting state"
+                        print ("The server is not in starting state")
                         break
 
                 time.sleep(7)
                 curSID = self.do_get_server_by_id (sID)
         else:
-            print "The server ID cannot be null or empty"
+            print ("The server ID cannot be null or empty")
 
     ####  Volumes functions
 
@@ -527,13 +527,13 @@ class CkdPrompt(Cmd):
         if r.status_code == 200:
             global pp
             pp.pprint(r.json())
-            print "Number of volumes = "+str(len(r.json()['volumes']))
+            print ("Number of volumes = "+str(len(r.json()['volumes'])))
             #jso = r.json()
             #for i in jso["servers"]:
             #    print (i['hostname']+" "+i['id']+" "+i['public_ip']['address'])
         else:
-            print Fore.RED+"Something wrong cannot access to volumes list"
-            print "Launch test_datacenter to see if link access is available"+Style.RESET_ALL 
+            print (Fore.RED+"Something wrong cannot access to volumes list")
+            print ("Launch test_datacenter to see if link access is available"+Style.RESET_ALL )
 
     ####  IPs functions
 
@@ -548,24 +548,24 @@ class CkdPrompt(Cmd):
         if r.status_code == 200:
             global pp
             pp.pprint(r.json())
-            print "Number of IPs = "+str(len(r.json()['ips']))
+            print ("Number of IPs = "+str(len(r.json()['ips'])))
             #jso = r.json()
             #for i in jso["servers"]:
             #    print (i['hostname']+" "+i['id']+" "+i['public_ip']['address'])
         else:
-            print Fore.RED+"Something wrong cannot access to IPs list"
-            print "Launch test_datacenter to see if link access is available"+Style.RESET_ALL 
+            print (Fore.RED+"Something wrong cannot access to IPs list")
+            print ("Launch test_datacenter to see if link access is available"+Style.RESET_ALL )
 
 
 
 
 if __name__ == '__main__':
     if os.environ.get('SCWTOKEN') is not None:
-        print "Token detected as envvar"
+        print ( "Token detected as envvar")
         global token
         token = os.environ['SCWTOKEN']
     if os.environ.get('SCWDATACENTER') is not None:
-        print "Datacenter detected as envvar"
+        print ("Datacenter detected as envvar")
         global datacenter
         datacenter = os.environ['SCWDATACENTER']
     
@@ -593,38 +593,38 @@ if __name__ == '__main__':
             prompt.prompt = Fore.BLUE+'ckd-scaleway# '+Style.RESET_ALL
             prompt.cmdloop('Loading Interactive Shell ....\n Type help to get commands')
         elif options.commtype == 'script' or options.commtype == 's':
-            print "Get in script mode but need to specify more option"
-            print "ENVVAR[TOKEN] = need to be set"
-            print "ENVVAR[DATACENTER] = need to be set"
+            print ("Get in script mode but need to specify more option")
+            print ("ENVVAR[TOKEN] = need to be set")
+            print ("ENVVAR[DATACENTER] = need to be set")
             prompt = CkdPrompt()
             prompt.do_clear('')
             prompt.do_status('')
             if prompt.do_test_datacenter('') is not True:
-                print "Datacenter KO"
+                print ("Datacenter KO")
                 exit
             if prompt.do_test_token('') is not True:
-                print "Token KO"
+                print ("Token KO")
                 exit
             if options.creastring is not None:
-                print "List servers" 
+                print ( "List servers" )
                 prompt.do_get_servers('')
                 global sID
             	sID = prompt.do_create_server(options.creastring)
-                print "!!!!!!!!!!!!!!!!!!!"+sID
+                print ("!!!!!!!!!!!!!!!!!!!"+sID)
                 prompt.do_get_servers('')
                 if sID is not None:
-                    print "Put "+sID+" server to poweron ["+sID +' poweron]'
+                    print ("Put "+sID+" server to poweron ["+sID +' poweron]')
                     prompt.do_set_server_action(sID +' poweron')
-                    print "sID value is known start to watch ["+sID+"]"
+                    print ("sID value is known start to watch ["+sID+"]")
                     prompt.do_watchdog_server_poweron(sID)     
             elif options.list is True:
-                print "List from script call"
+                print ("List from script call")
                 prompt.do_get_servers('')
                 exit
             else:
                  exit     
         else:
-            print "Invocation type not correct"
+            print ("Invocation type not correct")
     else:
         prompt = CkdPrompt()
         prompt.prompt = Fore.BLUE+'ckd-scaleway# '+Style.RESET_ALL

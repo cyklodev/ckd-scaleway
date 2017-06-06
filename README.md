@@ -1,3 +1,5 @@
+[alt text] (https://api.travis-ci.org/cyklodev/ckd-scaleway.svg?branch=master 'Travis-CI')
+
 # ckd-scaleway
 
 This python application provide an interface to manage Scaleway servers in a general manner via the HTTP API.
