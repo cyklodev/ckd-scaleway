@@ -302,6 +302,7 @@ class CkdPrompt(Cmd):
             if len(r.json()) > 0:
 		print ("ID \t\t\t\t\t\tServer\t\tImage\t\t\tState\t\t\tIP")
             jso = r.json()
+            servers_list = []
             for i in jso["servers"]:
                 try:
                     host = i['hostname']
@@ -324,6 +325,9 @@ class CkdPrompt(Cmd):
                 except:
                     ip = ''
                 print (idh+"\t\t"+host+"\t\t"+image+"\t\t"+state+"\t\t"+ip)
+                servers_list.append((idh+"\t\t"+host+"\t\t"+image+"\t\t"+state+"\t\t"+ip))
+            if options.commtype == 'script' or options.commtype == 's':
+                return servers_list 
         else:
             print Fore.RED+"Something wrong cannot access to servers list"
             print "Launch test_datacenter to see if link access is available"+Style.RESET_ALL 
@@ -574,12 +578,12 @@ if __name__ == '__main__':
                   help="Command type [interactive|script]", metavar="COMMTYPE")
     parser.add_option("-c", "--create", dest="creastring",
                   help="Creation string Server", metavar="CREASTRING")
+    parser.add_option("-l", "--list", action="store_true" , help="Get server list")
     parser.add_option("-q", "--quiet",
                   action="store_false", dest="verbose", default=True,
                   help="don't print status messages to stdout")
 
     (options, args) = parser.parse_args()
-
 
 
 
@@ -601,21 +605,24 @@ if __name__ == '__main__':
             if prompt.do_test_token('') is not True:
                 print "Token KO"
                 exit
-            print "List servers" 
-            prompt.do_get_servers('')
             if options.creastring is not None:
+                print "List servers" 
+                prompt.do_get_servers('')
                 global sID
             	sID = prompt.do_create_server(options.creastring)
                 print "!!!!!!!!!!!!!!!!!!!"+sID
                 prompt.do_get_servers('')
-            else:
+                if sID is not None:
+                    print "Put "+sID+" server to poweron ["+sID +' poweron]'
+                    prompt.do_set_server_action(sID +' poweron')
+                    print "sID value is known start to watch ["+sID+"]"
+                    prompt.do_watchdog_server_poweron(sID)     
+            elif options.list is True:
+                print "List from script call"
+                prompt.do_get_servers('')
                 exit
-            if sID is not None:
-                 print "Put "+sID+" server to poweron ["+sID +' poweron]'
-                 prompt.do_set_server_action(sID +' poweron')
-                 print "sID value is known start to watch ["+sID+"]"
-                 prompt.do_watchdog_server_poweron(sID)     
-                 
+            else:
+                 exit     
         else:
             print "Invocation type not correct"
     else:

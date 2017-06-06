@@ -36,9 +36,7 @@ ckd-scaleway requires [python] and [pip] to run.
 Install the dependencies and start the application:
 
 ```sh
-$ pip install colorama
-$ pip install requests
-$ pip install pprint
+$ pip install -r requirements.txt
 ```
 ### Usage
 
@@ -70,7 +68,6 @@ $ python ckd-scaleway.py -t s -c "<Organization ID> <Server Name> <Image ID> <Se
  - Servers type listing
  - Tokens listing
  - Delete a server
- - Pip file requierements
  - Crentials management
 
 
