@@ -248,7 +248,7 @@ class CkdPrompt(Cmd):
 
         testServer = self.get_architecture(ServerType)
         if testServer != False:
-	    print (Fore.GREEN+"Server type is valid ! ["+testServer+"]"+Style.RESET_ALL )
+            print (Fore.GREEN+"Server type is valid ! ["+testServer+"]"+Style.RESET_ALL )
         else:
             print (Fore.RED+"Server type is NOT valid !"+Style.RESET_ALL )
             return False
@@ -300,7 +300,7 @@ class CkdPrompt(Cmd):
             #pp.pprint(r.json())
             print ("Number of servers = "+str(len(r.json()['servers'])))
             if len(r.json()) > 0:
-		print ("ID \t\t\t\t\t\tServer\t\tImage\t\t\tState\t\t\tIP")
+                print ("ID \t\t\t\t\t\tServer\t\tImage\t\t\tState\t\t\tIP")
             jso = r.json()
             servers_list = []
             for i in jso["servers"]:
@@ -365,7 +365,7 @@ class CkdPrompt(Cmd):
                 except:
                     ip = ''
                 print (idh+"\t\t"+host+"\t\t"+image+"\t\t"+state+"\t\t"+ip)
-		if options.commtype == 'script' or options.commtype == 's':
+                if options.commtype == 'script' or options.commtype == 's':
                     return (idh+"\t\t"+host+"\t\t"+image+"\t\t"+state+"\t\t"+ip)
                 else:
                     return (idh+"\t\t"+host+"\t\t"+image+"\t\t"+state+"\t\t"+ip)
@@ -462,14 +462,14 @@ class CkdPrompt(Cmd):
             custom_url = dct[datacenter]+'/servers'
             headers = { "Content-Type": "application/json", "X-Auth-Token": token }
             payload = ({
-		  "organization": org,
-		  "name": name,
-		  "image": img,
-		  "commercial_type": stype,
-		  "tags": [
-		    "Cyklodev"
-		  ]
-	    })
+                "organization": org,
+                "name": name,
+                "image": img,
+                "commercial_type": stype,
+                "tags": [
+                    "Cyklodev"
+                ]
+            })
             r = requests.post(custom_url, data=json.dumps(payload), headers=headers)
             print ("Code = " + str(r.status_code))
             if r.status_code == 201:
@@ -497,7 +497,7 @@ class CkdPrompt(Cmd):
                 if s[3] == 'running':
 	            print ("Server UP in "+str(time.time() - timeout_start)+" secs !!!! ")
 	            print ("Connect with ssh -o 'StrictHostKeyChecking no' root@"+s[4])
-	            if options.commtype == 'script' or options.commtype == 's':
+                    if options.commtype == 'script' or options.commtype == 's':
                         return True
                     else:
                         break
