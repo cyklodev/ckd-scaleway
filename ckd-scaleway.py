@@ -558,18 +558,18 @@ class CkdPrompt(Cmd):
 
 
 
+global token
+global sID
+global datacenter
 
 if __name__ == '__main__':
-    global token
     if os.environ.get('SCWTOKEN') is not None:
         print ( "Token detected as envvar")
         token = os.environ['SCWTOKEN']
     if os.environ.get('SCWDATACENTER') is not None:
         print ("Datacenter detected as envvar")
-        global datacenter
         datacenter = os.environ['SCWDATACENTER']
     
-    global sID
     sID=""
 
     ##PARSE ARGS
@@ -608,7 +608,6 @@ if __name__ == '__main__':
             if options.creastring is not None:
                 print ( "List servers" )
                 prompt.do_get_servers('')
-                global sID
                 sID = prompt.do_create_server(options.creastring)
                 print ("!!!!!!!!!!!!!!!!!!!"+sID)
                 prompt.do_get_servers('')
