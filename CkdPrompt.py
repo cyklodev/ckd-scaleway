@@ -135,7 +135,7 @@ class CkdPrompt(Cmd):
         global options
         global pp
         options =args
-        print ("Options = "+str(options))
+        #print ("Options = "+str(options))
 
 
     def do_set_token(self,args):
