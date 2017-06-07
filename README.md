@@ -93,7 +93,7 @@ pytest -v
  - Delete a server
  - Credentials management
  - Integrate envvars to travis
- - Integrate create/delete test case
+ - Increase the code coverage
 
 
 License

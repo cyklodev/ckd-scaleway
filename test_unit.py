@@ -5,9 +5,6 @@ from CkdPrompt import CkdPrompt
 
 class TestCkdScaleway(unittest.TestCase):
 
-    global prompt
-    prompt = None
-
     def test_dummy_pre(self):
         assert 1 == 1
 
@@ -19,9 +16,8 @@ class TestCkdScaleway(unittest.TestCase):
         assert c == 0
 
     def test_interactive_loading(self):
+        """Test loading and quit"""
         prompt = CkdPrompt()
-        #prompt.do_status('')
-        #assertRaises(SystemExit, prompt.do_quit(''))
         with self.assertRaises(SystemExit):
             prompt.do_quit('')
 
