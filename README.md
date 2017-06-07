@@ -33,7 +33,7 @@ ckd-scaleway uses a limited number of well-known python libraries to work:
 * [json] - basic library to treat json data.
 * [pprint] - allow the PrettyPrinting
 
-### Installation
+# Installation
 
 ckd-scaleway requires [python] and [pip] to run.
 
@@ -42,7 +42,7 @@ Install the dependencies and start the application:
 ```sh
 $ pip install -r requirements.txt
 ```
-### Usage
+# Usage
 
 * Interactive mode
 ```sh
@@ -66,8 +66,28 @@ $ export SCWTOKEN=xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx
 $ export SCWDATACENTER=ams1
 $ python ckd-scaleway.py -t s -c "<Organization ID> <Server Name> <Image ID> <Server Type>"
 ```
+# Help
 
-### Todos
+```sh
+python ckd-scaleway.py -h
+```
+or
+
+```sh
+python ckd-scaleway.py 
+ckd-scaleway# help
+ckd-scaleway# help <Command>
+```
+# Tests
+
+* Some tests are shipped to tests your modifications
+
+```sh
+pytest -v
+```
+
+
+# Todos
 
  - Servers type listing
  - Tokens listing
