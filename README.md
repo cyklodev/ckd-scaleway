@@ -86,13 +86,14 @@ ckd-scaleway# help <Command>
 pytest -v
 ```
 
-
 # Todos
 
  - Servers type listing
  - Tokens listing
  - Delete a server
  - Credentials management
+ - Integrate envvars to travis
+ - Integrate create/delete test case
 
 
 License
